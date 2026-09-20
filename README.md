@@ -148,7 +148,7 @@ This research archive is permanently preserved on Zenodo:
 
 ### APA 7th Edition
 > Merrikhi, P. (2026). *Replication Package and Empirical Dataset for "The AI Divide and the Resilience Paradox: Digital Sanctions, Adaptive Agency, and Academic Tenacity among Iranian Scholars"* (Version v1.0.0) [Data set]. Zenodo. https://doi.org/10.5281/zenodo.22862815
-
+---
 ### BibTeX
 ```bibtex
 @misc{merrikhi2026aidivide,
