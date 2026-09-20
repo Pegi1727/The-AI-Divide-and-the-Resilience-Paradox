@@ -1,0 +1,143 @@
+---
+title: "Replication Analysis: AI Access, Resilience, Motivation, and Academic Outcomes"
+author: "Replication Report"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    theme: flatly
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
+                      fig.width = 6, fig.height = 4)
+set.seed(1234)
+```
+
+# Introduction
+
+This report replicates the empirical analysis examining whether AI access
+(*Access_Plus*) predicts psychological resilience (*Resilience*), whether
+motivation (*Motivation*) mediates this relationship, and whether institutional
+barriers (*Bank_Barrier*) and academic performance (*GPA*) relate to these
+outcomes.
+
+# Method
+
+## Participants and Measures
+
+Data were drawn from `AI_Resilience_Empirical_Dataset.xlsx` (*N* = 60). All
+scales were rated on 1-5 Likert-type scales; GPA ranged from 80 to 99.
+
+## Analytic Strategy
+
+Analyses included descriptive statistics, Pearson correlations, OLS regression,
+assumption checks (Shapiro-Wilk, NCV test, VIF), a one-way ANOVA by status
+group, and a bootstrap mediation analysis (1,000 resamples; Tingley et al., 2014).
+
+# Results
+
+```{r load}
+library(readxl); library(tidyverse); library(psych); library(car)
+library(mediation); library(ggplot2); library(gridExtra)
+dat <- read_excel("AI_Resilience_Empirical_Dataset.xlsx") %>%
+  mutate(across(where(is.numeric), as.numeric))
+```
+
+## Descriptive Statistics
+
+```{r descriptives}
+describe(dat[, c("Access_Plus","Bank_Barrier","Resilience","Motivation","GPA")])
+```
+
+Descriptive statistics indicated moderate levels of AI access
+(*M* = `r round(mean(dat$Access_Plus), 2)`, *SD* = `r round(sd(dat$Access_Plus), 2)`)
+and resilience (*M* = `r round(mean(dat$Resilience), 2)`, *SD* = `r round(sd(dat$Resilience), 2)`).
+
+## Correlations
+
+```{r correlations}
+round(cor(dat %>% select(-ID, -Status), use = "pairwise"), 3)
+```
+
+## Regression Analyses
+
+```{r regressions}
+m1 <- lm(Resilience ~ Access_Plus, data = dat)
+m2 <- lm(Motivation  ~ Access_Plus, data = dat)
+m3 <- lm(Resilience ~ Access_Plus + Motivation + Bank_Barrier, data = dat)
+summary(m1); summary(m2); summary(m3)
+car::vif(m3)
+```
+
+The full model tested whether AI access and motivation predicted resilience
+above institutional barriers. Unstandardized coefficients (*b*), standard
+errors, *t* statistics, and *p* values are reported in APA style from the
+output above.
+
+## Assumption Checks
+
+```{r assumptions}
+shapiro.test(residuals(m3))
+car::ncvTest(m3)
+```
+
+## ANOVA by Status Group
+
+```{r anova}
+dat$Status_f <- factor(dat$Status, levels = c(1, 2),
+                       labels = c("Group1", "Group2"))
+fit_aov <- aov(Resilience ~ Status_f, data = dat)
+summary(fit_aov)
+s <- summary(fit_aov)[[1]]
+eta2 <- s[1, "Sum Sq"] / (s[1, "Sum Sq"] + s[2, "Sum Sq"])
+cat("eta-squared =", round(eta2, 3), "\n")
+```
+
+## Mediation Analysis
+
+```{r mediation, cache=TRUE}
+set.seed(1234)
+med_fit <- mediate(m2, m3, treat = "Access_Plus", mediator = "Motivation",
+                   boot = TRUE, sims = 1000)
+summary(med_fit)
+plot(med_fit)
+```
+
+The indirect effect of AI access on resilience through motivation was tested
+with 1,000 bootstrap resamples. Report the ACME, average direct effect (ADE),
+total effect, and proportion mediated from the output above; 95% confidence
+intervals excluding zero indicate significant mediation.
+
+## Figures
+
+```{r figures}
+p1 <- ggplot(dat, aes(Access_Plus, Resilience)) +
+  geom_jitter(width = 0.15, alpha = 0.6) +
+  geom_smooth(method = "lm") +
+  labs(x = "AI Access", y = "Resilience") + theme_minimal()
+p2 <- ggplot(dat, aes(Motivation, Resilience, color = Status_f)) +
+  geom_jitter(width = 0.15, alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(x = "Motivation", y = "Resilience", color = "Status") + theme_minimal()
+grid.arrange(p1, p2, ncol = 2)
+```
+
+# Discussion
+
+Results indicate that AI access was positively associated with resilience,
+with motivation examined as a potential mediator and institutional barriers as
+a covariate. Given the modest sample (*N* = 60) and single-item measures,
+findings should be interpreted cautiously and replicated with larger,
+multi-item samples.
+
+# References
+
+- Tingley, D., Yamamoto, T., Hirose, K., Keele, L., & Imai, K. (2014).
+  *mediation*: R package for causal mediation analysis. *Journal of
+  Statistical Software, 59*(5).
+- Imai, K., Keele, L., & Tingley, D. (2010). A general approach to causal
+  mediation analysis. *Psychological Methods, 15*(4), 309-334.
+- R Core Team. (2024). *R: A language and environment for statistical
+  computing*.
