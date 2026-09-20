@@ -1,0 +1,57 @@
+project:
+  name: "The AI Divide and the Resilience Paradox"
+  version: "1.0.0"
+  authors:
+    - name: "Pegah Merrikhi"
+      email: "pegah.merrikhiii@gmail.com"
+      role: "Lead Researcher"
+  seed: 42
+
+dataset:
+  raw_file: "AI_Resilience_Empirical_Dataset.xlsx"
+  cleaned_file: "cleaned_dataset.csv"
+  sample_size: 60
+  id_column: "ID"
+  target_variable: "GPA"
+  key_predictors:
+    - "Access_Plus"
+    - "Bank_Barrier"
+    - "Resilience"
+    - "Motivation"
+  cohort_variable: "Status"
+
+preprocessing:
+  missing_data_strategy: "drop_na"
+  standardization:
+    method: "z_score"
+    apply_to: ["Access_Plus", "Bank_Barrier", "Resilience", "Motivation", "GPA"]
+  centering:
+    mean_center: true
+  grouping:
+    access_threshold: "median"
+    labels: ["Low_Access", "High_Access"]
+
+statistical_analysis:
+  significance_level: 0.05
+  confidence_interval: 0.95
+  correlation:
+    methods: ["pearson", "spearman"]
+    alternative: "two-sided"
+  regression:
+    estimator: "OLS"
+    robust_estimator: "HuberT"
+    vif_threshold: 5.0
+  mediation:
+    independent_variable: "Bank_Barrier"
+    mediator: "Motivation"
+    dependent_variable: "GPA"
+    bootstrap_samples: 5000
+    bootstrap_method: "bias_corrected"
+
+reporting:
+  figure_format: "png"
+  dpi: 300
+  style: "seaborn-v0_8-whitegrid"
+  output_directories:
+    tables: "outputs/tables/"
+    figures: "outputs/figures/"

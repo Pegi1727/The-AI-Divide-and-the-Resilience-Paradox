@@ -1,0 +1,41 @@
+schema_version: "2.0"
+identifier: "https://doi.org/10.5281/zenodo.ai-resilience-paradox"
+title: "Replication Archive: The AI Divide and the Resilience Paradox"
+description: >
+  Empirical research dataset and reproducible pipeline examining how structural
+  geopolitical barriers (e.g., banking restrictions) catalyze compensatory
+  psychological resilience and academic performance among higher education scholars.
+
+keywords:
+  - "AI divide"
+  - "Resilience paradox"
+  - "Academic motivation"
+  - "Mediation analysis"
+  - "Psychometrics"
+  - "Higher education"
+  - "Linguistic and regional equity"
+
+license: "CC-BY-4.0"
+date_published: "2026-09-20"
+
+creator:
+  name: "Pegah Merrikhi"
+  email: "pegah.merrikhiii@gmail.com"
+  affiliation: "Independent Researcher"
+  orcid: "0000-0002-XXXX-XXXX"
+
+programming_languages:
+  - name: "Python"
+    version: ">=3.10"
+  - name: "R"
+    version: ">=4.3.0"
+
+repository:
+  url: "https://github.com/pegah-merrikhi/ai-resilience-paradox"
+  code_repository: "https://github.com/pegah-merrikhi/ai-resilience-paradox"
+
+computational_environment:
+  container: "docker://ghcr.io/pegah-merrikhi/ai-resilience:latest"
+  hardware_requirements:
+    min_ram_gb: 4
+    min_cpu_cores: 2
