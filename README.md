@@ -76,15 +76,3 @@ and Academic Tenacity among Iranian Scholars"}},
   version      = {v1.0.0},
   doi          = {10.5281/zenodo.22862815
   ---
----
-🎯 Executive Summary & Overview
-This repository constitutes the complete reproducibility package, curated empirical dataset, and analytical pipeline for the study:
-
-“The AI Divide and the Resilience Paradox: Digital Sanctions, Adaptive Agency, and Academic Tenacity among Iranian Scholars.”
-
-The research examines a counter-intuitive sociotechnical phenomenon: scholars subjected to geopolitical digital exclusions, tiered access restrictions (e.g., restricted institutional access to frontier LLMs), and international payment frictions demonstrate counter-intuitively superior academic tenacity and achievement (GPA) compared to their unrestricted peers, mediated by compensatory agency and intrinsic motivation.
----
-📂 Repository Structure
-text
-  url          = {https://doi.org/10.5281/zenodo.22862815}
-}
