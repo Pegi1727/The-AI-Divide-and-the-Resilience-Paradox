@@ -112,7 +112,7 @@ All statistical computations are grounded in the verified cohort dataset ($N = 6
 | **Motivation** | **2.408** | **0.589** | **0.589** | **4.088** | **$< .001$** | **[1.228, 3.588]** | **7.12** |
 
 ### Table 5: Path Analysis & Structural Mediation Diagnostics
-- **Mediation Structural Chain:** $\text{Bank\_Barrier (X)} \longrightarrow \text{Compensatory Motivation (M)} \longrightarrow \text{Academic GPA (Y)}$
+- **Mediation Structural Chain:** 
 
 | Mediation Component | Pathway Notation | Parameter Estimate | Standard Error | $z$-score | $p$-value | Percent Explained |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
